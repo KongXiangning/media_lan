@@ -1,0 +1,66 @@
+{
+    "config": {
+        "error": {
+            "no_devices": "No new available devices found on the network",
+            "device_exist": "Device is already configured",
+            "cant_get_token": "Can't connect to Midea cloud to take device‘s key-info(Token and Key)",
+            "config_incorrect": "The configuration is incorrect, please check",
+            "connect_error": "Can't connect to AC device",
+            "invalid_token": "Token or Key in an incorrect format"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "way": "Adding devices"
+                },
+                "description": "Choose 'Auto' or 'Manual' to add a new device",
+                "title": "Add new device"
+            },
+            "discover": {
+                "description": "Discover new Midea devices?",
+                "title": "New device discover"
+            },
+            "byip": {
+                "description": "Input IP address for device",
+                "title": "By IP",
+                "data": {
+                    "ip_address": "AP address"
+                }
+            },
+            "auto": {
+                "data": {
+                    "device": "Devices"
+                },
+                "description": "Choose a device to add",
+                "title": "New device found"
+            },
+            "manual": {
+                "data": {
+                    "name": "name (e.g. Living room AC)",
+                    "device_id": "Appliance code",
+                    "type": "Type",
+                    "ip_address": "IP address",
+                    "port": "Port",
+                    "model": "Model",
+                    "protocol": "Protocol",
+                    "token": "Token",
+                    "key": "Key"
+                },
+                "description": "Configuration of AC device",
+                "title": "New device"
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data": {
+                    "sensors": "Sensors",
+                    "switches": "Switches"
+                },
+                "description": "Make attributes as extra sensors and switches",
+                "title": "Extra entities"
+            }
+        }
+    }
+}
