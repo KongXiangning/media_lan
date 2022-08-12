@@ -60,24 +60,27 @@ class MessageGeneralSet(MessageE2Base):
         self.variable_heating = False
         self.whole_tank_heating = False
         self.protection = False
+        self.auto_cut_out = False
 
     @property
     def _body(self):
         # Byte 2 mode
-        mode = 1 << self.mode
-        # Byte 4 whole_tank_heating
+        mode = 0 if self.mode == 0 else 1 << (self.mode - 1)
+        # Byte 4 whole_tank_heating, protection
         whole_tank_heating = 0x02 if self.whole_tank_heating else 0x01
         protection = 0x08 if self.protection else 0x00
+        auto_cut_out = 0x04 if self.auto_cut_out else 0x00
         # Byte 5 target_temperature
         target_temperature = self.target_temperature & 0xFF
         # Byte 9 variable_heating
         variable_heating = 0x10 if self.variable_heating else 0x00
 
+
         return bytearray([
             0x01,
             mode,
             0x00,
-            whole_tank_heating | protection,
+            whole_tank_heating | protection | auto_cut_out,
             target_temperature,
             0x00, 0x00, 0x00,
             variable_heating,
@@ -95,27 +98,29 @@ class E2GeneralMessageBody(MessageBody):
         self.heat_insulating = (body[2] & 0x08) > 0
         self.variable_heating = (body[2] & 0x80) > 0
         self.temperature = body[4]
+        self.mode = 0
         if (body[7] & 0x01) > 0:
             # e-Plus mode
-            self.mode = 0
+            self.mode = 1
         elif (body[7] & 0x02) > 0:
             # Rapid mode
-            self.mode = 1
+            self.mode = 2
         elif (body[7] & 0x10) > 0:
             # Summer mode
-            self.mode = 2
+            self.mode = 3
         elif (body[7] & 0x20) > 0:
             # Winter mode
-            self.mode = 3
+            self.mode = 4
         elif (body[7] & 0x40) > 0:
             # Power saving
-            self.mode = 4
+            self.mode = 5
         elif (body[7] & 0x80) > 0:
             # Night Mode
-            self.mode = 5
+            self.mode = 6
         self.whole_tank_heating = (body[7] & 0x08) > 0
         self.target_temperature = body[11]
         self.protection = (body[22] & 0x04) > 0 if len(body) > 22 else False
+        self.auto_cut_out = (body[22] & 0x02) > 0 if len(body) > 22 else False
         self.heating_power = body[27] if len(body) > 27 else 0
 
 
@@ -136,3 +141,4 @@ class MessageE2Response(MessageResponse):
             self.target_temperature = self._body.target_temperature
             self.protection = self._body.protection
             self.heating_power = self._body.heating_power
+            self.auto_cut_out = self._body.auto_cut_out

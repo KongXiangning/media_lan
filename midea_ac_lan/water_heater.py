@@ -103,7 +103,7 @@ class MideaE2WaterHeater(MideaWaterHeater):
         super().__init__(device)
         self._device.entity = self
         self._operations = [
-            "e-Plus Mode", "Rapid Mode", "Summer Mode",
+            "None", "e-Plus Mode", "Rapid Mode", "Summer Mode",
             "Winter Mode", "Energy Saving", "Night Mode"
         ]
 

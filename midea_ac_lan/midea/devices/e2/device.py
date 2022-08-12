@@ -22,6 +22,7 @@ class DeviceAttributes(StrEnum):
     variable_heating = "variable_heating"
     protection = "protection"
     heating_power = "heating_power"
+    auto_cut_out = "auto_cut_out"
 
 
 class MideaE2Device(MiedaDevice):
@@ -58,6 +59,7 @@ class MideaE2Device(MiedaDevice):
             DeviceAttributes.variable_heating: False,
             DeviceAttributes.protection: False,
             DeviceAttributes.heating_power: 0,
+            DeviceAttributes.auto_cut_out: False
         }
 
     def build_query(self):
@@ -82,6 +84,7 @@ class MideaE2Device(MiedaDevice):
         message.protection = self._attributes[DeviceAttributes.protection]
         message.target_temperature = self._attributes[DeviceAttributes.target_temperature]
         message.variable_heating = self._attributes[DeviceAttributes.variable_heating]
+        message.auto_cut_out = self._attributes[DeviceAttributes.auto_cut_out]
         return message
 
     def set_attribute(self, attr, value):

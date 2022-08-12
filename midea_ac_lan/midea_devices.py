@@ -221,6 +221,11 @@ MIDEA_DEVICES = {
                 "device_class": DEVICE_CLASS_TEMPERATURE,
                 "unit": TEMP_CELSIUS
             },
+            E2Attributes.auto_cut_out: {
+                "type": "switch",
+                "name": "Auto cut out",
+                "icon": "mdi:power-plug-off"
+            },
             E2Attributes.power: {
                 "type": "switch",
                 "name": "Power",

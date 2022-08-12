@@ -33,22 +33,6 @@ class MessageQuery(MessageCDBase):
         return bytearray([0x01])
 
 
-class MessagePower(MessageCDBase):
-    def __init__(self):
-        super().__init__(
-            message_type=MessageType.set,
-            body_type=0x02)
-        self.power = False
-
-    @property
-    def _body(self):
-        if self.power:
-            self._body_type = 0x01
-        else:
-            self._body_type = 0x02
-        return bytearray([0x01])
-
-
 class MessageGeneralSet(MessageCDBase):
     def __init__(self):
         super().__init__(
@@ -61,7 +45,7 @@ class MessageGeneralSet(MessageCDBase):
         return bytearray([])
 
 
-class E2GeneralMessageBody(MessageBody):
+class CDGeneralMessageBody(MessageBody):
     def __init__(self, body):
         super().__init__(body)
 
@@ -71,4 +55,4 @@ class MessageCDResponse(MessageResponse):
         super().__init__(message)
         body = message[10: -2]
         if self._message_type in [MessageType.query, MessageType.notify2]:
-            pass
+            self._body = CDGeneralMessageBody(body)
